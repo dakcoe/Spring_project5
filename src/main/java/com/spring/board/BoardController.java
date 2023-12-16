@@ -17,6 +17,12 @@ public class BoardController {
         model.addAttribute("list",boardService.getBoardList());
         return "list";
     }
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public String viewPost(@PathVariable("id")int id, Model model){
+        BoardVO boardVO = boardService.getBoard(id);
+        model.addAttribute("u",boardVO);
+        return "view";
+    }
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addPost(){
         return "addpostform";
@@ -50,5 +56,18 @@ public class BoardController {
         else
             System.out.println("데이터 삭제 성공");
         return "redirect:../list";
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginForm() {
+        return "login";  // 로그인 페이지 반환
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(String userId, String password, Model model) {
+        if ("admin".equals(userId) && "1234".equals(password)) {
+            return "redirect:list";  // 로그인 성공 시 게시판 목록으로 리디렉트
+        } else {
+            model.addAttribute("loginError", "아이디 또는 비밀번호가 잘못되었습니다.");
+            return "login";  // 로그인 실패 시 로그인 페이지로 다시 이동
+        }
     }
 }

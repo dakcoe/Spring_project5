@@ -16,10 +16,12 @@ public class BoardDAO {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	public int insertBoard(BoardVO vo) {
-		String sql = "insert into BOARD (title, writer, song, content) values ('"
+		String sql = "insert into BOARD (title, writer, song, album, rating, content) values ('"
 				+ vo.getTitle() + "', '"
 				+ vo.getWriter() + "', '"
 				+ vo.getSong() + "', '"
+				+ vo.getAlbum() + "', '"
+				+ vo.getRating() + "', '"
 				+ vo.getContent() + "')";
 		return jdbcTemplate.update(sql);
 	}
@@ -35,6 +37,8 @@ public class BoardDAO {
 				+"title='"+ vo.getTitle()+"',"
 				+"writer='"+vo.getWriter()+"',"
 				+"song='"+vo.getSong()+"',"
+				+"album='"+vo.getAlbum()+"', "
+				+"rating='"+vo.getRating()+"', "
 				+"content='"+vo.getContent()+"' where seq="+vo.getSeq();
 		return jdbcTemplate.update(sql);
 	}
@@ -47,6 +51,8 @@ public class BoardDAO {
 			vo.setTitle(rs.getString("title"));
 			vo.setWriter(rs.getString("writer"));
 			vo.setSong(rs.getString("song"));
+			vo.setAlbum(rs.getString("album"));
+			vo.setRating(rs.getInt("rating"));
 			vo.setContent(rs.getString("content"));
 			vo.setRegdate(rs.getDate("regdate"));
 			return vo;

@@ -8,6 +8,8 @@ public class BoardVO {
 	private String writer;
 	private String content;
 	private String song;
+	private String album;
+	private int rating;
 	private Date regdate;
 	private int cnt;
 	public BoardVO() {
@@ -32,6 +34,10 @@ public class BoardVO {
 	}
 	public String getSong() {return song; }
 	public void setSong(String song) {this.song = song; }
+	public String getAlbum() {return album; }
+	public void setAlbum(String album) {this.album = album; }
+	public int getRating() {return rating; }
+	public void setRating(int rating) {this.rating = rating; }
 	public String getContent() {
 		return content;
 	}

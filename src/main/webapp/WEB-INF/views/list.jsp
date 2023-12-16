@@ -41,16 +41,55 @@
             if (a) location.href = 'deleteok/' + id;
         }
     </script>
+    <script>
+        function filterResults() {
+            var searchFieldIndex = document.getElementsByName("searchField")[0].selectedIndex;
+            var searchText = document.getElementsByName("searchText")[0].value.toLowerCase();
+
+            var table = document.getElementById("list");
+            var tr = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < tr.length; i++) {
+                var td = tr[i].getElementsByTagName("td")[searchFieldIndex];
+                if (td) {
+                    var textValue = td.textContent || td.innerText;
+                    if (textValue.toLowerCase().indexOf(searchText) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 <h1>플레이리스트</h1>
-
+<div class="container">
+    <div class="row">
+        <form method="post" name="search">
+            <select class="form-control" name="searchField" onchange="filterResults()">
+                <option value="0">id</option>
+                <option value="1">제목</option>
+                <option value="2">가수/그룹</option>
+                <option value="3">노래 길이</option>
+                <option value="4">앨범 이름</option>
+                <option value="5">별점</option>
+                <option value="6">노래 장르</option>
+            </select>
+            <input type="text" class="form-control" placeholder="검색어 입력" name="searchText" onkeyup="filterResults()" maxlength="100">
+        </form>
+    </div>
+</div>
+</form>
 <table id="list" width="90%">
     <tr>
         <th>Id</th>
         <th>제목</th>
         <th>가수/그룹</th>
         <th>노래 길이</th>
+        <th>앨범 이름</th>
+        <th>별점</th>
         <th>노래 장르</th>
         <th>등록 일자</th>
         <th>수정</th>
@@ -59,9 +98,11 @@
     <c:forEach items="${list}" var="u">
         <tr>
             <td>${u.getSeq()}</td>
-            <td>${u.getTitle()}</td>
+            <td><a href="view/${u.getSeq()}">${u.getTitle()}</a></td>
             <td>${u.getWriter()}</td>
             <td>${u.getSong()}</td>
+            <td>${u.getAlbum()}</td>
+            <td>${u.getRating()}</td>
             <td>${u.getContent()}</td>
             <td>${u.getRegdate()}</td>
             <td><a href="editform/${u.getSeq()}">Edit</a></td>
